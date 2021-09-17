@@ -1,6 +1,6 @@
 <template>
   <div class="card__container">
-      <h3 class="card__header">Hallo!</h3>
+    <h3 class="card__header">Hallo!</h3>
   </div>
 </template>
 
@@ -21,15 +21,15 @@ export default {
   background: rgb(0, 102, 204, 1);
   font: small;
   border: outset 3px white;
+  border-radius: 7px;
 }
 
-
-
 .card__header {
-  margin: 0.1rem;
   color: white;
   text-shadow: 1px 1px 4px black;
   background: rgb(0, 21, 59);
-  border-radius: 30px;
+  margin: 0.01rem;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 </style>

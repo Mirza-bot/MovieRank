@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="./src/assets/movie.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie Rank</title>
+    <title>MovieVote</title>
   </head>
   <body>
     <div id="app"></div>
@@ -19,15 +19,24 @@
 </html>
 
 <style>
-  html {
-    background-color: rgba(0, 0, 40, 1);
-    margin: 0;
-    font-family: 'Oswald', sans-serif;
-  }
+  html,
   body {
-    margin: 0;
-    height: 100vh;
-    background: linear-gradient(45deg ,rgba(0, 0, 40, 1) 80.3%, rgb(2, 75, 148) .9%);
+    min-height: 100%;
+    min-width: 100%;
+  }
+
+  body {
+    background: linear-gradient(
+      -20deg,
+      rgba(0, 0, 40) 10%,
+      rgb(2, 75, 148) 50%,
+      rgba(0, 0, 40) 90%
+    );
+    margin: 0px;
+    font-family: "Oswald", sans-serif;
+    background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
+    padding-bottom: 3rem;
   }
 </style>

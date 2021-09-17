@@ -3,12 +3,20 @@
     <nav>
       <ul class="navbar__links">
         <li>
-          <a class="nav__button" href="#">MovieRank</a>
+          <a class="nav__button" href="#">MovieVote</a>
+          <div class="search__bar">
+            <input type="text" />
+            <button class="search__button">Search Movie</button>
+          </div>
         </li>
       </ul>
     </nav>
   </div>
   <div class="grid-container">
+    <card-section></card-section>
+    <card-section></card-section>
+    <card-section></card-section>
+    <card-section></card-section>
     <card-section></card-section>
     <card-section></card-section>
     <card-section></card-section>
@@ -33,13 +41,13 @@ export default {
 <style>
 .grid-container {
   display: grid;
-  position: absolute;
-  justify-content: center;
+  position: relative;
   text-align: center;
-  grid-template-columns: 200px 250px;
-  grid-auto-rows: minmax(150px, auto);
+  justify-content: center;
+  grid-template-columns: 20vw 20vw 20vw;
+  grid-auto-rows: minmax(30vh, auto);
   grid-gap: 20px;
-  margin-top: 100px;
+  margin-top: 10rem;
 }
 
 .navbar {
@@ -55,6 +63,7 @@ export default {
 }
 .nav__button {
   text-decoration: none;
+  margin-bottom: 20px;
 }
 .navbar__links {
   list-style-type: none;
@@ -75,5 +84,25 @@ a:hover,
 a:active {
   text-decoration: none;
   color: gold;
+}
+
+.search__bar {
+  float: right;
+  margin: -5px 20px 10px 0px;
+  border: outset white 2px;
+  padding: 1px 10px 10px 10px;
+}
+
+.search__button {
+  background: rgb(18, 78, 189);
+  color: white;
+  border: outset 2px white;
+  text-shadow: -1px -1px 1px black;
+}
+
+.search__button:hover {
+  background: gold;
+  color: rgba(0, 0, 40, 0.6);
+  cursor: pointer;
 }
 </style>
