@@ -4,35 +4,67 @@
       <ul class="navbar__links">
         <li>
           <a class="nav__button" href="#">MovieVote</a>
-          <div class="search__bar">
-            <input v-model="searchedMovie" type="text" />
-            <button class="search__button">Search Movie</button>
-          </div>
+          <search-bar
+            v-model="searchedMovie"
+            :searched-title="searchedMovie"
+            :find-movie="findMovie"
+          ></search-bar>
         </li>
       </ul>
     </nav>
   </div>
+  <div class="preview__container" v-show="preview"></div>
   <div class="grid-container">
-    <card-section v-for="movie in selectedMovies" :key="movie.title" :movieTitle="movie.title"></card-section>
+    <card-section
+      v-for="movie in foundMovies"
+      :key="movie.index"
+      :movieTitle="movie"
+    ></card-section>
   </div>
 </template>
 
 <script>
 import Cards from "./components/Cards.vue";
+import SearchBar from "./components/SearchBar.vue";
 export default {
-  components: { Cards },
+  components: { Cards, SearchBar },
   data() {
     return {
-      searchedMovie: "",
+      preview: false,
+      searchedMovie: "Herbie",
+      returned: [],
+      foundMovies: "1",
+      movieData: [],
       selectedMovies: [
-      {title:"Shang-Chi"}, 
-      {title:"Justus James"},
-      {title: "Jennifouz"},
+        { title: "Shang-Chi" },
+        { title: "Justus James" },
+        { title: "Jennifouz" },
       ],
     };
   },
+  computed: {
+  },
   methods: {
+    displayPreview() {
+      this.preview = !this.preview;
+    },
 
+    findMovie() {
+      this.foundMovies = this.fetchTitle(this.searchedMovie);
+      console.log(this.foundMovies)
+    },
+
+    fetchTitle(value) {
+      const foundMovies = [];
+      this.$axios
+        .get("http://www.omdbapi.com/?s=" + value + "&apikey=99947005")
+        .then(function (response) {
+          for (const movie of response.data["Search"]) {
+            foundMovies.push(movie["Title"]);
+          }
+        });
+      return foundMovies;
+    },
   },
 };
 </script>
@@ -43,10 +75,19 @@ export default {
   position: relative;
   text-align: center;
   justify-content: center;
-  grid-template-columns: 20vw 20vw 20vw;
-  grid-auto-rows: minmax(30vh, auto);
+  grid-template-columns: 30vw 30vw 30vw;
+  grid-auto-rows: minmax(40vh, auto);
+  grid-auto-columns: minmax(270px, auto);
   grid-gap: 20px;
   margin-top: 10rem;
+}
+
+@media only screen and (max-width: 550px) {
+  .grid-container {
+    grid-template-columns: 80vw;
+    grid-template-rows: 70vh;
+    font-size: x-large;
+  }
 }
 
 .navbar {
@@ -57,6 +98,7 @@ export default {
   position: fixed;
   width: 100%;
   font-size: large;
+  font-style: bold;
   border-bottom: 3px solid white;
   z-index: 1;
 }
@@ -85,23 +127,17 @@ a:active {
   color: gold;
 }
 
-.search__bar {
-  float: right;
-  margin: -5px 20px 10px 0px;
-  border: outset white 2px;
-  padding: 1px 10px 10px 10px;
-}
-
-.search__button {
-  background: rgb(18, 78, 189);
-  color: white;
-  border: outset 2px white;
-  text-shadow: -1px -1px 1px black;
-}
-
-.search__button:hover {
-  background: gold;
-  color: rgba(0, 0, 40, 0.6);
-  cursor: pointer;
+.preview__container {
+  transform: translate(20vw, 20vh);
+  max-width: 60vw;
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: white;
+  border: inset white 2px;
+  border-bottom: outset 2px silver;
+  border-radius: 10px;
 }
 </style>
