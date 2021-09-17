@@ -1,14 +1,17 @@
 <template>
   <div class="card__container">
-    <h3 class="card__header">Hallo!</h3>
+    <h5 class="card__header">{{ movieTitle }}</h5>
   </div>
 </template>
 
 <script>
 export default {
+  props: [
+      'movieTitle'
+  ],
   data() {
     return {
-      counter: 0,
+      
     };
   },
 };
@@ -31,5 +34,7 @@ export default {
   margin: 0.01rem;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
+  min-height: 15%;
+  padding-top: 2%;
 }
 </style>

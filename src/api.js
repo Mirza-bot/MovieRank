@@ -1,5 +1,6 @@
 "use strict";
 
+const { initCustomFormatter } = require("@vue/runtime-core");
 const axios = require("axios");
 
 /**
@@ -16,13 +17,17 @@ module.exports.search = function search(term) {
       },
     })
     .then(function (response) {
-      const movieArray = [];
+      const resultTitles = [];
+        const resultIDs = [];
+        const moviesData = [];
       for (const movie of response.data["Search"]) {
-        const movieData = movie["imdbID"] + ": " + movie["Title"];
-        movieArray.push(movieData);
+        resultIDs.push(movie["imdbID"]);
+        resultTitles.push(movie["Title"]);
       }
-      return movieArray
+      moviesData.push(resultTitles, resultIDs)
+      return moviesData
     });
 };
 
-this.search("cars");
+
+

@@ -5,7 +5,7 @@
         <li>
           <a class="nav__button" href="#">MovieVote</a>
           <div class="search__bar">
-            <input type="text" />
+            <input v-model="searchedMovie" type="text" />
             <button class="search__button">Search Movie</button>
           </div>
         </li>
@@ -13,18 +13,7 @@
     </nav>
   </div>
   <div class="grid-container">
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
-    <card-section></card-section>
+    <card-section v-for="movie in selectedMovies" :key="movie.title" :movieTitle="movie.title"></card-section>
   </div>
 </template>
 
@@ -33,7 +22,17 @@ import Cards from "./components/Cards.vue";
 export default {
   components: { Cards },
   data() {
-    return {};
+    return {
+      searchedMovie: "",
+      selectedMovies: [
+      {title:"Shang-Chi"}, 
+      {title:"Justus James"},
+      {title: "Jennifouz"},
+      ],
+    };
+  },
+  methods: {
+
   },
 };
 </script>
