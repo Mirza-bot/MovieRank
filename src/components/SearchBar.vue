@@ -1,6 +1,6 @@
 <template>
   <div class="search__box">
-    <input class="search__bar" type="text"/>
+    <input class="search__bar" type="text" v-model="searchedMovie"/>
     <button class="search__button" @click="findMovie">
       <i class="fas fa-search"></i>
     </button>
@@ -14,11 +14,16 @@
 
 <script>
 export default {
-  props: ["searched-title", "find-movie"],
+  props: ["find-movie"],
   data() {
     return {
-        searchedMovie: this['searched-title']
+        searchedMovie: ""
     };
+  },
+  methods: {
+      passSearched() {
+          
+      }
   },
 };
 </script>

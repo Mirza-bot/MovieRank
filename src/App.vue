@@ -5,8 +5,6 @@
         <li>
           <a class="nav__button" href="#">MovieVote</a>
           <search-bar
-            v-model="searchedMovie"
-            :searched-title="searchedMovie"
             :find-movie="findMovie"
           ></search-bar>
         </li>
@@ -15,11 +13,7 @@
   </div>
   <div class="preview__container" v-show="preview"></div>
   <div class="grid-container">
-    <card-section
-      v-for="movie in foundMovies"
-      :key="movie.index"
-      :movieTitle="movie"
-    ></card-section>
+    <card-section></card-section>
   </div>
 </template>
 
@@ -31,39 +25,35 @@ export default {
   data() {
     return {
       preview: false,
-      searchedMovie: "Herbie",
       returned: [],
-      foundMovies: "1",
+      foundMovies: [],
       movieData: [],
       selectedMovies: [
-        { title: "Shang-Chi" },
-        { title: "Justus James" },
-        { title: "Jennifouz" },
+
       ],
     };
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     displayPreview() {
       this.preview = !this.preview;
     },
 
-    findMovie() {
-      this.foundMovies = this.fetchTitle(this.searchedMovie);
-      console.log(this.foundMovies)
-    },
-
     fetchTitle(value) {
-      const foundMovies = [];
+      const searchedMovies = [];
       this.$axios
         .get("http://www.omdbapi.com/?s=" + value + "&apikey=99947005")
         .then(function (response) {
           for (const movie of response.data["Search"]) {
-            foundMovies.push(movie["Title"]);
+            searchedMovies.push(movie["Title"]);
           }
         });
-      return foundMovies;
+      return searchedMovies;
+    },
+
+    findMovie() {
+      this.foundMovies = this.fetchTitle(this.searchedMovie);
+      console.log(this.foundMovies);
     },
   },
 };
