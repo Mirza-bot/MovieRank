@@ -1,12 +1,9 @@
 <template>
   <div class="search__box">
-    <input class="search__bar" type="text" v-model="searchedMovie"/>
-    <button class="search__button" @click="findMovie">
-      <i class="fas fa-search"></i>
-    </button>
+    <input class="search__bar" type="text" placeholder="Search Title" v-model="searchedMovie" @keyup="passSearched(), findMovie(foundMovies)"/>
     <div class="search__list">
       <ul>
-        <li class="search__list__items"></li>
+        <li class="search__list__items" v-for="movie in foundMovies" :key="movie">{{movie["Title"]}}</li>
       </ul>
     </div>
   </div>
@@ -14,15 +11,15 @@
 
 <script>
 export default {
-  props: ["find-movie"],
+  props: ["findMovie", "foundMovies"],
   data() {
     return {
-        searchedMovie: ""
+        searchedMovie: "",
     };
   },
   methods: {
       passSearched() {
-          
+          this.$emit('pass-searched', this.searchedMovie);
       }
   },
 };

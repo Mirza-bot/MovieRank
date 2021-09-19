@@ -6,6 +6,8 @@
           <a class="nav__button" href="#">MovieVote</a>
           <search-bar
             :find-movie="findMovie"
+            :found-movies="foundMovies"
+            @pass-searched="recieveSearched"
           ></search-bar>
         </li>
       </ul>
@@ -13,7 +15,7 @@
   </div>
   <div class="preview__container" v-show="preview"></div>
   <div class="grid-container">
-    <card-section></card-section>
+    <card-section v-for="movie in selectedMovies" :key="movie"></card-section>
   </div>
 </template>
 
@@ -25,12 +27,9 @@ export default {
   data() {
     return {
       preview: false,
-      returned: [],
-      foundMovies: [],
-      movieData: [],
-      selectedMovies: [
-
-      ],
+      foundMovies: "",
+      searchedMovie: "",
+      selectedMovies: [],
     };
   },
   computed: {},
@@ -39,20 +38,24 @@ export default {
       this.preview = !this.preview;
     },
 
-    fetchTitle(value) {
-      const searchedMovies = [];
+    fetchTitle(value, target) {
       this.$axios
         .get("http://www.omdbapi.com/?s=" + value + "&apikey=99947005")
         .then(function (response) {
-          for (const movie of response.data["Search"]) {
-            searchedMovies.push(movie["Title"]);
+          if (response.data["Response"] === "True") {
+            response.data["Search"].forEach((element) => {
+              target.push(element);
+            });
           }
         });
-      return searchedMovies;
+    },
+    recieveSearched(recievedMovie) {
+      this.searchedMovie = recievedMovie;
     },
 
     findMovie() {
-      this.foundMovies = this.fetchTitle(this.searchedMovie);
+      this.foundMovies = [];
+      this.fetchTitle(this.searchedMovie, this.foundMovies);
       console.log(this.foundMovies);
     },
   },
