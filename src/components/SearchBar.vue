@@ -87,8 +87,6 @@ export default {
   color: black;
   font-size: small;
   text-align: start;
-  overflow: auto;
-  overflow-y: scroll;
 }
 
 .search__list > ul > li {

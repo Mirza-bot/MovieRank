@@ -1,18 +1,17 @@
 <template>
   <div class="card__container">
-    <h5 class="card__header">{{ movieTitle }}</h5>
+    <h3 class="card__header">{{ movieTitle }}</h3>
+    <div class="card__poster__container">
+      <img class="card__poster__image" :src="moviePoster" alt="Movie Poster" />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: [
-      'movieTitle'
-  ],
+  props: ["movie-title", "movie-poster"],
   data() {
-    return {
-      
-    };
+    return {};
   },
 };
 </script>
@@ -36,5 +35,15 @@ export default {
   border-top-right-radius: 4px;
   min-height: 15%;
   padding-top: 2%;
+}
+
+.card__poster__image {
+  width: 100%;
+}
+
+div .card__poster__container {
+  margin-top: 1rem;
+  width: 40%;
+  display: inline-block;
 }
 </style>

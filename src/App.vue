@@ -28,11 +28,19 @@
       <h2>{{ previewedMovie["Year"] }}</h2>
       <h3>Type:</h3>
       <h2>{{ previewedMovie["Type"] }}</h2>
-      <div class="preview__button">Add to Votes</div>
+      <div class="preview_add_button" @click="addToCard(previewedMovie)">
+        Add to Votes
+      </div>
+      <div class="preview_cancle_button" @click="preview = false">Cancle</div>
     </div>
   </div>
   <div class="grid-container">
-    <card-section v-for="movie in selectedMovies" :key="movie"></card-section>
+    <card-section
+      v-for="movie in selectedMovies"
+      :key="movie"
+      :movie-title="movie['Title']"
+      :movie-poster="movie['Poster']"
+    ></card-section>
   </div>
 </template>
 
@@ -53,9 +61,13 @@ export default {
   computed: {},
   methods: {
     displayPreview(target) {
-      console.log(target);
       this.preview = true;
       this.previewedMovie = target;
+    },
+
+    addToCard(movie) {
+      console.log(movie)
+      this.selectedMovies.push(movie);
     },
 
     fetchTitle(value, target) {
@@ -88,10 +100,10 @@ export default {
   text-align: center;
   justify-content: center;
   grid-template-columns: 30vw 30vw 30vw;
-  grid-auto-rows: minmax(40vh, auto);
+  grid-auto-rows: minmax(50vh, auto);
   grid-auto-columns: minmax(270px, auto);
   grid-gap: 20px;
-  margin-top: 10rem;
+  margin-top: 30vh;
 }
 
 @media only screen and (max-width: 770px) {
@@ -104,7 +116,6 @@ export default {
     transform: translate(5vw, 15vh);
     min-height: 60vh;
     min-width: 90vw;
-    max-width: 80vw;
   }
   div .poster__container {
     width: 50%;
@@ -113,6 +124,12 @@ export default {
   div.poster__container {
     width: 40%;
     margin: 1rem;
+  }
+
+  .search__list {
+    width: 35%;
+    overflow: auto;
+    overflow-y: scroll;
   }
 }
 
@@ -195,7 +212,7 @@ a:active {
   width: 30%;
 }
 
-.preview__button {
+.preview_add_button {
   position: absolute;
   margin-top: 1rem;
   font-style: bold;
@@ -207,8 +224,20 @@ a:active {
   width: 100%;
 }
 
-.preview__button:hover {
+.preview_add_button:hover {
   cursor: pointer;
-  background: linear-gradient(35deg, rgb(5, 40, 105),rgb(16, 123, 230));
+  background: linear-gradient(35deg, rgb(5, 40, 105), rgb(16, 123, 230));
+}
+
+.preview_cancle_button {
+  position: absolute;
+  margin-top: 3rem;
+  font-style: bold;
+  color: white;
+  background: linear-gradient(35deg, rgb(0, 21, 59), rgb(0, 102, 204));
+  border: outset 6px rgb(0, 102, 204);
+  border-radius: 30px;
+  text-align: center;
+  width: 100%;
 }
 </style>
