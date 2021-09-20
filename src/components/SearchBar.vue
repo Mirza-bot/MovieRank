@@ -1,9 +1,27 @@
 <template>
   <div class="search__box">
-    <input class="search__bar" type="text" placeholder="Search Title" v-model="searchedMovie" @keyup="passSearched(), findMovie(foundMovies)"/>
-    <div class="search__list">
+    <input
+      class="search__bar"
+      type="text"
+      placeholder="Search Title"
+      v-model="searchedMovie"
+      @keyup="passSearched(), findMovie(foundMovies), showSearchList = true"
+      @click="displaySearchList"
+    />
+    <div v-show="displayBox" class="search__list">
       <ul>
-        <li class="search__list__items" v-for="movie in foundMovies" :key="movie">{{movie["Title"]}}</li>
+        <li
+          class="search__list__items"
+          v-for="movie in foundMovies"
+          :key="movie"
+          @click="
+            displayPreview(movie),
+              displaySearchList(),
+              (searchedMovie = '')
+          "
+        >
+          {{ movie["Title"] }}
+        </li>
       </ul>
     </div>
   </div>
@@ -11,36 +29,50 @@
 
 <script>
 export default {
-  props: ["findMovie", "foundMovies"],
+  props: ["findMovie", "foundMovies", "displayPreview"],
   data() {
     return {
-        searchedMovie: "",
+      searchedMovie: "",
+      showSearchList: true,
+      chosenMovie: "",
     };
   },
   methods: {
-      passSearched() {
-          this.$emit('pass-searched', this.searchedMovie);
-      }
+    passSearched() {
+      this.$emit("pass-searched", this.searchedMovie);
+    },
+    displaySearchList() {
+        this.showSearchList = !this.showSearchList
+    }
+  },
+  computed: {
+    displayBox() {
+      if (this.foundMovies[0] !== undefined && this.showSearchList === true)
+        return true;
+      else false;
+    },
   },
 };
 </script>
 
 <style>
 .search__box {
+  display: block;
   float: right;
-  margin: -5px 20px 10px 0px;
+  margin-top: -4rem;
+  margin-right: 1rem;
   border: outset white 2px;
-  padding: 1px 10px 10px 10px;
+  padding: 4px 10px 10px 10px;
 }
 
 .search__bar {
-  width: 15vw;
-  min-width: 100px;
+  min-width: 20vw;
+  width: 150px;
 }
 
 .search__list {
   margin-left: 1px;
-  width: 15.5vw;
+  width: 20.34vw;
   min-width: 106px;
   min-height: 5vh;
   background: white;
@@ -55,10 +87,12 @@ export default {
   color: black;
   font-size: small;
   text-align: start;
+  overflow: auto;
+  overflow-y: scroll;
 }
 
 .search__list > ul > li {
-  padding: 6px;
+  padding: 0.9rem;
 }
 
 .search__list > ul > li:hover {
