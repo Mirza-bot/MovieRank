@@ -41,7 +41,7 @@
     <card-section
       v-for="movie in selectedMovies"
       :key="movie"
-      :movie-data="movie"
+      :movie-data="movie['imdbID']"
       :movie-title="movie['Title']"
       :movie-poster="movie['Poster']"
       :delete-movie="deleteMovie"
@@ -112,8 +112,13 @@ export default {
       this.fetchTitle(this.searchedMovie, this.foundMovies);
     },
 
-    deleteMovie(movie) {
-      this.selectedMovies.splice(movie, 1);
+    deleteMovie(target) {
+      for(const movie of this.selectedMovies) {
+        if (movie["imdbID"] === target) {
+          const targetIndex = this.selectedMovies.indexOf(movie)
+          this.selectedMovies.splice(targetIndex, 1)
+        }
+      }
     },
   },
 };
