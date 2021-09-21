@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar">
+  <div class="navbar" @click="hideList">
     <nav>
       <ul class="navbar__links">
         <li>
@@ -28,7 +28,10 @@
       <h2>{{ previewedMovie["Year"] }}</h2>
       <h3>Type:</h3>
       <h2>{{ previewedMovie["Type"] }}</h2>
-      <div class="preview_add_button" @click="addToCard(previewedMovie)">
+      <div
+        class="preview_add_button"
+        @click="addToCard(previewedMovie), (preview = false)"
+      >
         Add to Votes
       </div>
       <div class="preview_cancle_button" @click="preview = false">Cancle</div>
@@ -38,8 +41,10 @@
     <card-section
       v-for="movie in selectedMovies"
       :key="movie"
+      :movie-data="movie"
       :movie-title="movie['Title']"
       :movie-poster="movie['Poster']"
+      :delete-movie="deleteMovie"
     ></card-section>
   </div>
 </template>
@@ -56,18 +61,35 @@ export default {
       foundMovies: "",
       searchedMovie: "",
       selectedMovies: [],
+      displaySearchList: true
     };
   },
-  computed: {},
+  computed: {
+    hideList(element) {
+      document.addEventListener("click", (ziel) => {
+        if (ziel.target["className"] !== "search__list__items") {
+          this.displaySearchList = false
+        }
+      });
+    },
+  },
   methods: {
     displayPreview(target) {
       this.preview = true;
       this.previewedMovie = target;
     },
 
-    addToCard(movie) {
-      console.log(movie)
-      this.selectedMovies.push(movie);
+    addToCard(target) {
+      let controlCounter = 0;
+      for (const movie of this.selectedMovies) {
+        if (movie["imdbID"] === target["imdbID"]) {
+          controlCounter++;
+        }
+      }
+      if (controlCounter === 0) {
+        this.selectedMovies.push(target);
+        this.foundMovies = [];
+      } else return;
     },
 
     fetchTitle(value, target) {
@@ -89,6 +111,10 @@ export default {
       this.foundMovies = [];
       this.fetchTitle(this.searchedMovie, this.foundMovies);
     },
+
+    deleteMovie(movie) {
+      this.selectedMovies.splice(movie, 1);
+    },
   },
 };
 </script>
@@ -108,8 +134,8 @@ export default {
 
 @media only screen and (max-width: 770px) {
   .grid-container {
+    margin-top: 15vh;
     grid-template-columns: 80vw;
-    grid-template-rows: 70vh;
     font-size: x-large;
   }
   div .preview__container {
@@ -130,6 +156,12 @@ export default {
     width: 35%;
     overflow: auto;
     overflow-y: scroll;
+  }
+
+  .delete__alert {
+    max-width: 80vw;
+    margin-right: 12vw;
+    margin-left: -20vw;
   }
 }
 
@@ -176,13 +208,15 @@ a:active {
 }
 
 .preview__container {
-  transform: translate(30vw, 20vh);
-  max-width: 40vw;
+  transform: translate(20vw, 0vh);
+  position: absolute;
+  width: 60vw;
   min-height: 50vh;
   background: white;
   border: inset white 2px;
   border-bottom: outset 2px silver;
   border-radius: 10px;
+  z-index: 1;
 }
 
 .preview__container > h2 {
@@ -229,6 +263,16 @@ a:active {
   background: linear-gradient(35deg, rgb(5, 40, 105), rgb(16, 123, 230));
 }
 
+.preview_add_button:active {
+  border: inset;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .preview_cancle_button {
   position: absolute;
   margin-top: 3rem;
@@ -239,5 +283,20 @@ a:active {
   border-radius: 30px;
   text-align: center;
   width: 100%;
+}
+
+.preview_cancle_button:hover {
+  cursor: pointer;
+  background: linear-gradient(35deg, rgb(5, 40, 105), rgb(16, 123, 230));
+}
+
+.preview_cancle_button:active {
+  border: inset;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 </style>

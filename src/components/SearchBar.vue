@@ -41,6 +41,11 @@ export default {
     passSearched() {
       this.$emit("pass-searched", this.searchedMovie);
     },
+
+    searchListStatus() {
+      this.$emit("search-list-status", this.showSearchList)
+    },
+
     displaySearchList() {
         this.showSearchList = !this.showSearchList
     }
