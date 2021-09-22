@@ -22,7 +22,7 @@
       A preview window appears by choosing the movie which contains movie-data
       aswell as a poster-image of the movie. <br />By pressing the
       <strong>"Add card"</strong> button a card gets generated which has buttons
-      to Vote on the cards.<br /> <br />
+      to Vote on the cards.<br /> <br>
       Go ahead, try it out and happy voting.
     </p>
     <div class="instructions__button" @click="hideInstructions" >Try it out!</div>
@@ -172,7 +172,7 @@ export default {
   border: 4px outset white;
   position: absolute;
   bottom: 1rem;
-  left: 30rem;
+  left: 45%;
 }
 
 .instructions__button:hover {
