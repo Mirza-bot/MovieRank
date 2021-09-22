@@ -14,6 +14,19 @@
       </ul>
     </nav>
   </div>
+  <div class="instructions__get_started" v-show="showInstructions">
+    <strong class="instructions__header">What is Movievote?</strong>
+    <p class="instructions__text">
+      A very simple App to vote chosen movies. <br> Search for a movie in the
+      <strong>searchbar</strong> which is placed <strong> in the upper right corner</strong>.<br />
+      A preview window appears by choosing the movie which contains movie-data
+      aswell as a poster-image of the movie. <br />By pressing the
+      <strong>"Add card"</strong> button a card gets generated which has buttons
+      to Vote on the cards.<br /> <br />
+      Go ahead, try it out and happy voting.
+    </p>
+    <div class="instructions__button" @click="hideInstructions" >Try it out!</div>
+  </div>
   <div class="preview__container" v-show="preview">
     <h2>{{ previewedMovie["Title"] }}</h2>
     <div class="poster__container">
@@ -56,25 +69,30 @@ export default {
   components: { Cards, SearchBar },
   data() {
     return {
+      showInstructions: true,
       preview: false,
       previewedMovie: "",
       foundMovies: "",
       searchedMovie: "",
       selectedMovies: [],
-      displaySearchList: true
+      displaySearchList: true,
     };
   },
   computed: {
-    hideList(element) {
-      document.addEventListener("click", (ziel) => {
-        if (ziel.target["className"] !== "search__list__items") {
-          this.displaySearchList = false
+    hideList() {
+      document.addEventListener("click", (element) => {
+        if (element.target["className"] !== "search__list__items") {
+          this.displaySearchList = false;
         }
       });
     },
   },
   methods: {
+    hideInstructions() {
+    this.showInstructions = false;
+    },
     displayPreview(target) {
+      this.hideInstructions()
       this.preview = true;
       this.previewedMovie = target;
     },
@@ -113,10 +131,10 @@ export default {
     },
 
     deleteMovie(target) {
-      for(const movie of this.selectedMovies) {
+      for (const movie of this.selectedMovies) {
         if (movie["imdbID"] === target) {
-          const targetIndex = this.selectedMovies.indexOf(movie)
-          this.selectedMovies.splice(targetIndex, 1)
+          const targetIndex = this.selectedMovies.indexOf(movie);
+          this.selectedMovies.splice(targetIndex, 1);
         }
       }
     },
@@ -125,6 +143,53 @@ export default {
 </script>
 
 <style>
+.instructions__get_started {
+  background: rgb(0, 102, 204);
+  color: white;
+  width: 70vw;
+  height: 40vh;
+  position: absolute;
+  margin-top: -4vh;
+  margin-left: 12vw;
+  z-index: 1;
+  font-size: 2rem;
+  padding: 2rem;
+}
+
+.instructions__header {
+  margin: 0rem;
+}
+
+.instructions__text {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
+.instructions__button {
+  background: gold;
+  color: black;
+  display: inline-block;
+  border: 4px outset white;
+  position: absolute;
+  bottom: 1rem;
+  left: 30rem;
+}
+
+.instructions__button:hover {
+  background: rgb(206, 176, 9);
+  cursor: pointer;
+}
+
+.instructions__button:active {
+  border: inset;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .grid-container {
   display: grid;
   position: relative;
@@ -138,6 +203,34 @@ export default {
 }
 
 @media only screen and (max-width: 770px) {
+  .instructions__get_started {
+    width: 90vw;
+    height: 90vh;
+    margin-top: -4vh;
+    margin-left: 0rem;
+    font-size: 2rem;
+    padding: 2rem;
+  }
+
+  .instructions__header {
+    margin: 0rem;
+  }
+
+  .instructions__text {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .instructions__button {
+    background: gold;
+    color: black;
+    display: inline-block;
+    border: 4px outset white;
+    position: absolute;
+    bottom: 4rem;
+    left: 30%;
+  }
+
   .grid-container {
     margin-top: 15vh;
     grid-template-columns: 80vw;
@@ -189,6 +282,7 @@ export default {
 }
 .nav__button {
   text-decoration: none;
+  color: white;
 }
 ul.navbar__links {
   list-style-type: none;
