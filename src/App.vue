@@ -147,9 +147,9 @@ export default {
   background: rgb(0, 102, 204);
   color: white;
   width: 70vw;
-  height: 40vh;
+  height: 50vh;
   position: absolute;
-  margin-top: -4vh;
+  margin-top: -15vh;
   margin-left: 12vw;
   z-index: 1;
   font-size: 2rem;
@@ -205,8 +205,8 @@ export default {
 @media only screen and (max-width: 770px) {
   .instructions__get_started {
     width: 90vw;
-    height: 90vh;
-    margin-top: -4vh;
+    height: 75vh;
+    margin-top: 5vh;
     margin-left: 0rem;
     font-size: 2rem;
     padding: 2rem;
@@ -218,7 +218,7 @@ export default {
 
   .instructions__text {
     margin-top: 2rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 
   .instructions__button {
